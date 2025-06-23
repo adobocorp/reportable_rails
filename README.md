@@ -31,6 +31,9 @@ ReportableRails.configure do |config|
     # Your custom logic here
     # For example: NotificationMailer.report_submitted(report).deliver_later
   }
+
+  # Customize the name of the default category
+  config.default_category_name = 'General' # Defaults to 'Uncategorized'
 end
 ```
 
@@ -120,6 +123,27 @@ report = TimeReport.create!(
   report_category: ReportableRails::ReportCategory.find_by(name: 'Project Work')
 )
 ```
+
+### Default Category
+
+ReportableRails automatically manages a default "Uncategorized" category that cannot be deactivated or deleted. You can customize the name of this category in your configuration:
+
+```ruby
+ReportableRails.configure do |config|
+  config.default_category_name = 'General' # Defaults to 'Uncategorized'
+end
+```
+
+To access the default category:
+
+```ruby
+default_category = ReportCategory.default_category # Returns or creates the default category
+```
+
+Reports without a specific category will use this default category. The default category:
+- Cannot be deactivated
+- Cannot be deleted
+- Is automatically created when first accessed
 
 ### Database Setup
 
