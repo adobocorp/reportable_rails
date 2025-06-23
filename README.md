@@ -38,18 +38,47 @@ end
 
 ### Setting Up Models
 
-Include the Report module in your model:
+ReportableRails provides three main models that can be included in your application:
 
 ```ruby
+# app/models/time_report.rb
 class TimeReport < ApplicationRecord
   include ReportableRails::Models::Report
 end
+
+# app/models/report_category.rb
+class ReportCategory < ApplicationRecord
+  include ReportableRails::Models::ReportCategory
+end
+
+# app/models/hours_log.rb
+class HoursLog < ApplicationRecord
+  include ReportableRails::Models::HoursLog
+end
 ```
 
-This will add the following associations and functionality to your model:
+Each model provides the following functionality:
+
+#### Report Model
 - `belongs_to :owner` (user who owns the report)
 - `belongs_to :report_category` (optional categorization)
 - `has_many :hours_logs` (time entries for the report)
+- Period management methods
+- Report submission handling
+
+#### Report Category Model
+- `has_many :reports`
+- Name and description tracking
+- Active/inactive status management
+- Scopes for filtering active categories
+- Helper methods for finding and managing categories
+
+#### Hours Log Model
+- `belongs_to :report`
+- Hours and date tracking
+- Period validation
+- Description management
+- Methods for checking if hours are in current period
 
 ### Managing Hours Logs
 
@@ -90,6 +119,56 @@ report = TimeReport.create!(
   owner: current_user,
   report_category: ReportableRails::ReportCategory.find_by(name: 'Project Work')
 )
+```
+
+### Database Setup
+
+You'll need to create the necessary database tables. Here are the recommended migrations:
+
+```ruby
+# Create Reports Table
+class CreateReports < ActiveRecord::Migration[6.1]
+  def change
+    create_table :reports do |t|
+      t.references :owner, null: false, foreign_key: { to_table: :users }
+      t.references :report_category, foreign_key: true
+      t.timestamps
+    end
+  end
+end
+
+# Create Report Categories Table
+class CreateReportCategories < ActiveRecord::Migration[6.1]
+  def change
+    create_table :report_categories do |t|
+      t.string :name, null: false
+      t.text :description
+      t.boolean :active, default: true
+      t.timestamps
+      t.index :name, unique: true
+    end
+  end
+end
+
+# Create Hours Logs Table
+class CreateHoursLogs < ActiveRecord::Migration[6.1]
+  def change
+    create_table :hours_logs do |t|
+      t.references :report, null: false, foreign_key: true
+      t.decimal :hours, null: false, precision: 4, scale: 2
+      t.date :date, null: false
+      t.text :description, null: false
+      t.timestamps
+      t.index [:report_id, :date]
+    end
+  end
+end
+```
+
+Run the migrations with:
+
+```bash
+$ rails db:migrate
 ```
 
 ## License

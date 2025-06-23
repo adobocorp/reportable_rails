@@ -3,6 +3,9 @@
 require 'rails/engine'
 require 'active_model_serializers'
 require 'reportable_rails/version'
+require 'reportable_rails/models/report'
+require 'reportable_rails/models/report_category'
+require 'reportable_rails/models/hours_log'
 
 module ReportableRails
   class Error < StandardError; end
@@ -32,11 +35,12 @@ module ReportableRails
   end
 
   class Configuration
-    attr_accessor :user_class, :default_category_name
+    attr_accessor :user_class, :default_category_name, :report_submitted_callback
     
     def initialize
       @user_class = 'User'
       @default_category_name = 'Uncategorized'
+      @report_submitted_callback = nil
     end
   end
 end
