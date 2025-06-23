@@ -1,0 +1,42 @@
+# Ignore built gems
+*.gem
+
+# Ignore bundler config and installed gems
+/.bundle/
+/vendor/bundle
+/lib/bundler/man/
+
+# Ignore temporary files
+*.log
+/tmp/
+/log/
+
+# Ignore test coverage
+/coverage/
+.rspec_status
+
+# Ignore documentation
+/doc/
+/rdoc/
+/.yardoc/
+/yard/
+
+# Ignore environment specific files
+.env
+.env.*
+
+# Ignore OS specific files
+.DS_Store
+*.swp
+*~
+
+# Ignore gem specific
+/pkg/
+/spec/reports/
+/spec/examples.txt
+
+# Ignore IDE specific
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
