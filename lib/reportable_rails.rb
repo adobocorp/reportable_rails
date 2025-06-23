@@ -3,6 +3,7 @@
 require 'rails/engine'
 require 'active_model_serializers'
 require 'reportable_rails/version'
+require 'reportable_rails/errors'
 require 'reportable_rails/models/report'
 require 'reportable_rails/models/report_category'
 require 'reportable_rails/models/hours_log'

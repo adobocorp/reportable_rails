@@ -4,7 +4,7 @@ module ReportableRails
       extend ActiveSupport::Concern
 
       included do
-        belongs_to :report, class_name: 'ReportableRails::Report'
+        belongs_to :report
 
         validates :hours, presence: true, numericality: { greater_than: 0, less_than_or_equal_to: 24 }
         validates :date, presence: true

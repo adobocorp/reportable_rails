@@ -4,7 +4,7 @@ module ReportableRails
       extend ActiveSupport::Concern
 
       included do
-        has_many :reports, class_name: 'ReportableRails::Report', dependent: :nullify
+        has_many :reports, dependent: :nullify
 
         validates :name, presence: true, uniqueness: { case_sensitive: false }
         validates :description, length: { maximum: 1000 }

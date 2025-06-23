@@ -40,3 +40,5 @@
 .vscode/
 *.sublime-workspace
 *.sublime-project
+
+spec/dummy/tmp/local_secret.txt

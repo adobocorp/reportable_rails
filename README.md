@@ -1,5 +1,12 @@
 # ReportableRails
 
+[![Gem Version](https://badge.fury.io/rb/reportable_rails.svg)](https://badge.fury.io/rb/reportable_rails)
+[![Build Status](https://github.com/adobocorp/reportable_rails/workflows/RSpec%20Tests/badge.svg)](https://github.com/adobocorp/reportable_rails/actions)
+[![Ruby Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://github.com/testdouble/standard)
+[![Maintainability](https://api.codeclimate.com/v1/badges/YOUR_REPO_ID/maintainability)](https://codeclimate.com/github/adobocorp/reportable_rails)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/YOUR_REPO_ID/test_coverage)](https://codeclimate.com/github/adobocorp/reportable_rails)
+[![Ruby](https://img.shields.io/badge/ruby-2.7%2B-blue)](https://www.ruby-lang.org/en/)
+
 ReportableRails is a Ruby on Rails gem that provides a flexible reporting system for tracking and managing time-based reports with period management.
 
 ## Installation
