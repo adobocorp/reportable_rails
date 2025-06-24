@@ -42,3 +42,5 @@
 *.sublime-project
 
 spec/dummy/tmp/local_secret.txt
+# Temprarily ignore bundler
+Gemfile.lock

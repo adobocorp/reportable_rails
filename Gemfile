@@ -1,15 +1,14 @@
 source "https://rubygems.org"
 
+ruby '3.2.8'
+
 # Specify your gem's dependencies in reportable_rails.gemspec
 gemspec
 
-# Runtime dependencies
-gem "rails", ">= 6.1"
 gem "active_model_serializers"
 
-
 group :development, :test do
-  gem "sqlite3"
+  gem "sqlite3", "~> 1.4"
   gem "rspec-rails"
   gem "factory_bot_rails"
   gem "faker"

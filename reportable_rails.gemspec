@@ -14,16 +14,15 @@ Gem::Specification.new do |spec|
   spec.license       = "MIT"
 
   spec.files         = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
-  
-  spec.add_dependency "rails", ">= 6.1"
-  spec.add_dependency "active_model_serializers"
-  spec.add_dependency "actionview", ">= 6.1.0"
-  spec.add_dependency "activerecord", ">= 6.1.0"
-  spec.add_dependency "activemodel", ">= 6.1.0"
-  spec.add_dependency "activesupport", ">= 6.1.0"
+  spec.add_dependency "rails", "~> 6.1", ">= 6.1.7.10"
+  spec.add_dependency "actionview", "~> 6.1.0", ">= 6.1.7.10"
+  spec.add_dependency "activerecord", "~> 6.1.0", ">= 6.1.7.10"
+  spec.add_dependency "activemodel", "~> 6.1.0", ">= 6.1.7.10"
+  spec.add_dependency "activesupport", "~> 6.1.0", ">= 6.1.7.10"
   spec.add_dependency "tzinfo-data", "~> 1.2023"
-  spec.add_dependency "sqlite3"
-  
+  spec.add_dependency "concurrent-ruby", "1.3.4"
+  spec.add_dependency "sqlite3", ">= 1.4"
+
   spec.add_development_dependency "rspec-rails"
   spec.add_development_dependency "factory_bot_rails"
   spec.add_development_dependency "faker"

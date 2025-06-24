@@ -1,69 +1,42 @@
 name: Create Release and Publish
 
 on:
-  workflow_dispatch:
-    inputs:
-      releaseNotes:
-        description: 'Additional release notes (optional)'
-        required: false
-        type: string
+  workflow_dispatch: # allow repo collaborators to publish gem
+
+permissions:
+  contents: write # required for `rake release` to push the release tag
+  id-token: write # required for workflow to publish gem
 
 jobs:
   create-release:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      id-token: write
 
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Configure Git
-        run: |
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
-
-      - name: Set up Ruby
+      # required to run `rake release`.
+      - name: Setup Ruby and install dependencies
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
+          # setup-ruby implicitly uses .ruby-version
           bundler-cache: true
+          rubygems: latest
 
-      - name: Get version from version.rb
-        id: get_version
+      # Run `rake release` to create git tag and push to repository based on `lib/rpush/version.rb`.
+      # Then publish the new gem via trusted publishing
+      # Read more on https://guides.rubygems.org/trusted-publishing/releasing-gems/
+      - name: Publish gem
+        uses: rubygems/release-gem@v1
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VERSION=$(ruby -e "require './lib/reportable_rails/version.rb'; puts ReportableRails::VERSION")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Current version: $VERSION"
 
-      - name: Build Gem
-        run: |
-          gem build reportable_rails.gemspec
-          echo "Built gem: reportable_rails-${{ steps.get_version.outputs.version }}.gem"
-
-      - name: Create and Push Tag
-        run: |
-          git tag -a "v${{ steps.get_version.outputs.version }}" -m "Release v${{ steps.get_version.outputs.version }}"
-          git push origin "v${{ steps.get_version.outputs.version }}"
-
-      - name: Publish to RubyGems
-        uses: rubygems/release-gem@v1.1.1
-
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ steps.get_version.outputs.version }}
-          name: Release v${{ steps.get_version.outputs.version }}
-          draft: false
-          prerelease: false
-          generate_release_notes: true
-          files: |
-            LICENSE
-            README.md
-            reportable_rails-${{ steps.get_version.outputs.version }}.gem
+          gh release create \
+            $VERSION \
+            --verify-tag \
+            --generate-notes \
+            --latest
