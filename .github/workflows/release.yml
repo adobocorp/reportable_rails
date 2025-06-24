@@ -13,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      packages: write
       id-token: write
 
     steps:
@@ -52,8 +51,6 @@ jobs:
 
       - name: Publish to RubyGems
         uses: rubygems/release-gem@v1.1.1
-        env:
-          RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
 
       - name: Create Release
         id: create_release

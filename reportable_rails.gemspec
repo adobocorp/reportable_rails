@@ -21,7 +21,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "activerecord", ">= 6.1.0"
   spec.add_dependency "activemodel", ">= 6.1.0"
   spec.add_dependency "activesupport", ">= 6.1.0"
-  spec.add_dependency "reportable_rails", "~> 0.1.3"
   spec.add_dependency "tzinfo-data", "~> 1.2023"
   spec.add_dependency "sqlite3"
   
